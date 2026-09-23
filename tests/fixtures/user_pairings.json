@@ -1,0 +1,33 @@
+{
+  "errors": [],
+  "message": null,
+  "success": true,
+  "d": {
+    "UserPairings": [
+      {
+        "Id": 2936,
+        "IsReciprocal": false,
+        "IsRequest": false,
+        "IsUserSource": true,
+        "ModificationDate": "/Date(1573896067877+0100)/",
+        "State": 2,
+        "UserBarcode": "2227203240XXXX",
+        "UserDisplayName": "Child DOE",
+        "UserUniqueIdentifier": "1234a0141c3a4ab7977b56116d6f17da"
+      }
+    ],
+    "UserReversePairings": [
+      {
+        "Id": 2937,
+        "IsReciprocal": true,
+        "IsRequest": false,
+        "IsUserSource": false,
+        "ModificationDate": "/Date(1573896067877+0100)/",
+        "State": 2,
+        "UserBarcode": "2227203241XXXX",
+        "UserDisplayName": "Jane DOE",
+        "UserUniqueIdentifier": "44d95800c23248efa0334d2c4dc65ce6"
+      }
+    ]
+  }
+}

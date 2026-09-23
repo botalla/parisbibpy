@@ -1,0 +1,72 @@
+{
+  "errors": [],
+  "message": null,
+  "success": true,
+  "d": {
+    "Loans": [
+      {
+        "Id": "32272146061863",
+        "HoldingId": "32272146061863",
+        "RecordId": "1236431",
+        "RecordBase": "SYRACUSE",
+        "Title": "Empereur du Japon. 02",
+        "TitleSort": "empereur du japon. 02",
+        "TitleLink": "https://bibliotheques.paris.fr/Default/doc/SYRACUSE/1236431/empereur-du-japon-2",
+        "TypeOfDocument": "BD",
+        "Location": "75015 - Marguerite Yourcenar",
+        "WhenBack": "/Date(1792188000000+0200)/",
+        "State": "En cours",
+        "IsLate": false,
+        "IsSoonLate": false,
+        "CanRenew": true,
+        "CannotRenewReason": null,
+        "HasBooking": false,
+        "ThumbnailUrl": "https://covers.syracuse.cloud/Cover/VPCO/BDTP/MEDIUM?fallback=default",
+        "DefaultThumbnailUrl": "https://bibliotheques.paris.fr/ui/skins/default/portal/front/images/General/DocType/BDTP_MEDIUM.png",
+        "AdditionalProperties": {
+          "LocationLink": "https://www.paris.fr/lieux/mediatheque-marguerite-yourcenar-6218",
+          "IsRenewal": "1"
+        }
+      },
+      {
+        "Id": "32272037042865",
+        "HoldingId": "32272037042865",
+        "RecordId": "83464",
+        "RecordBase": "SYRACUSE",
+        "Title": "Le Crabe aux pinces d'or",
+        "TitleSort": "le crabe aux pinces d'or",
+        "TypeOfDocument": "BD",
+        "Location": "75015 - Vaugirard (fermée)",
+        "WhenBack": "/Date(1803682800000+0100)/",
+        "State": "En cours",
+        "IsLate": false,
+        "IsSoonLate": false,
+        "CanRenew": false,
+        "CannotRenewReason": "Exemplaire déjà prolongé aujourd'hui",
+        "HasBooking": false,
+        "ThumbnailUrl": "https://covers.syracuse.cloud/Cover/VPCO/BDTP/MEDIUM?fallback=default",
+        "AdditionalProperties": {
+          "LocationLink": "https://www.paris.fr/lieux/bibliotheque-vaugirard-1735",
+          "IsRenewal": "0"
+        }
+      },
+      {
+        "Id": "32272011223344",
+        "HoldingId": "32272011223344",
+        "RecordId": "998877",
+        "RecordBase": "SYRACUSE",
+        "Title": "Catan: Le Jeu de Plateau",
+        "TitleSort": "catan",
+        "TypeOfDocument": "Jeu de société",
+        "Location": "75015 - Marguerite Yourcenar",
+        "WhenBack": "/Date(1789000000000+0200)/",
+        "State": "En retard",
+        "IsLate": true,
+        "IsSoonLate": false,
+        "CanRenew": false,
+        "CannotRenewReason": "Document en retard",
+        "HasBooking": false
+      }
+    ]
+  }
+}

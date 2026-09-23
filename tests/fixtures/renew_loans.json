@@ -1,0 +1,52 @@
+{
+  "errors": [],
+  "message": null,
+  "success": true,
+  "d": {
+    "ErrorCount": 0,
+    "Errors": [],
+    "SuccessCount": 2,
+    "Successes": [
+      {
+        "Id": "32272148302372",
+        "HoldingId": "32272148302372",
+        "RecordId": "1222075",
+        "RecordBase": "SYRACUSE",
+        "Title": "Garfield gribouille",
+        "TitleLink": "https://bibliotheques.paris.fr/Default/doc/SYRACUSE/1222075/garfield-gribouille",
+        "TypeOfDocument": "BD",
+        "Location": "75015 - Andrée Chedid",
+        "State": "A rendre bientôt",
+        "WhenBack": "/Date(1792188000000+0200)/",
+        "CanRenew": true,
+        "CannotRenewReason": null,
+        "IsLate": false,
+        "IsSoonLate": false,
+        "AdditionalProperties": {
+          "LocationLink": "https://www.paris.fr/lieux/bibliotheque-andree-chedid-1734",
+          "IsRenewal": "1"
+        }
+      },
+      {
+        "Id": "32272166630332",
+        "HoldingId": "32272166630332",
+        "RecordId": "1248130",
+        "RecordBase": "SYRACUSE",
+        "Title": "Souriez",
+        "TitleLink": "https://bibliotheques.paris.fr/Default/doc/SYRACUSE/1248130/souriez",
+        "TypeOfDocument": "BD",
+        "Location": "75015 - Andrée Chedid",
+        "State": "A rendre bientôt",
+        "WhenBack": "/Date(1792188000000+0200)/",
+        "CanRenew": true,
+        "CannotRenewReason": null,
+        "IsLate": false,
+        "IsSoonLate": false,
+        "AdditionalProperties": {
+          "LocationLink": "https://www.paris.fr/lieux/bibliotheque-andree-chedid-1734",
+          "IsRenewal": "1"
+        }
+      }
+    ]
+  }
+}

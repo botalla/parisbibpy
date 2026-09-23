@@ -1,0 +1,47 @@
+{
+  "errors": [],
+  "message": null,
+  "success": true,
+  "d": {
+    "AccountAbstractMessageCollection": [
+      {
+        "Message": "Vous avez emprunté 19 documents",
+        "Priority": 3,
+        "Type": 0
+      },
+      {
+        "Message": "5 sont à rendre le 26/09/2026",
+        "Priority": 1,
+        "Type": 0
+      },
+      {
+        "Message": "Vous avez réservé 1 document",
+        "Priority": 3,
+        "Type": 1
+      },
+      {
+        "Message": "1 réservation en cours de traitement",
+        "Priority": 0,
+        "Type": 1
+      }
+    ],
+    "AccountSummary": {
+      "Barcode": "22272392XXXXXX",
+      "DisplayName": "Fred DUPONT",
+      "LoansTotalCount": 19,
+      "LoansNotLateCount": 19,
+      "LoansLateCount": 0,
+      "LoansNextHandingCount": 5,
+      "LoansNextHandingDate": "/Date(1790373600000+0200)/",
+      "LoansNextHandingIsSoonLate": true,
+      "BookingsTotalCount": 1,
+      "BookingsAvailableCount": 0,
+      "BookingsNotAvailableCount": 1,
+      "HandingsCount": 56,
+      "ProvisionsCount": 0,
+      "ProvisionsHistoCount": 0,
+      "SerialRoutingListsCount": 0,
+      "SuggestionsCount": 0
+    }
+  }
+}

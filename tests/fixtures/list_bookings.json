@@ -1,0 +1,64 @@
+{
+  "errors": [],
+  "message": null,
+  "success": true,
+  "d": {
+    "BookingColumns": [
+      { "Name": "Title", "ColumnLabel": "Titre", "Order": 0 },
+      { "Name": "TypeOfDocument", "ColumnLabel": "Type doc.", "Order": 1 },
+      { "Name": "BookingDate", "ColumnLabel": "Réservé le", "Order": 2 },
+      { "Name": "AvailableUntilDate", "ColumnLabel": "Disponible jusqu'au", "Order": 3 },
+      { "Name": "LocationLabel", "ColumnLabel": "Lieu de mise à disposition", "Order": 4 },
+      { "Name": "Rank", "ColumnLabel": "Rang", "Order": 5 }
+    ],
+    "Bookings": [
+      {
+        "Id": "25",
+        "HoldingId": "32272124115228",
+        "RecordId": "1011201",
+        "RecordBase": "SYRACUSE",
+        "Title": "Soeurs",
+        "TitleSort": "soeurs",
+        "TitleLink": "https://bibliotheques.paris.fr/Default/doc/SYRACUSE/1011201/soeurs",
+        "TypeOfDocument": "BD",
+        "BookingDate": "/Date(1789682400000+0200)/",
+        "AvailabilityDate": null,
+        "AvailableUntilDate": null,
+        "HoldingPlace": "75015 - Andrée Chedid",
+        "LocationLabel": "75015 - Andrée Chedid",
+        "IsAvailable": false,
+        "Rank": "1",
+        "RankSort": 1,
+        "CanCancel": true,
+        "CannotCancelReason": null,
+        "ThumbnailUrl": "https://covers.syracuse.cloud/Cover/VPCO/BDTP/ZArKsKBG8yMlXFrEE_0xYA2/9782355741692/MEDIUM?fallback=default",
+        "DefaultThumbnailUrl": "https://bibliotheques.paris.fr/ui/skins/default/portal/front/images/General/DocType/BDTP_MEDIUM.png",
+        "AdditionalProperties": {
+          "LocationLabelLink": "https://www.paris.fr/lieux/bibliotheque-andree-chedid-1734"
+        }
+      },
+      {
+        "Id": "26",
+        "HoldingId": "32272148302372",
+        "RecordId": "1222075",
+        "RecordBase": "SYRACUSE",
+        "Title": "Garfield gribouille",
+        "TitleSort": "garfield gribouille",
+        "TypeOfDocument": "BD",
+        "BookingDate": "/Date(1789682400000+0200)/",
+        "AvailabilityDate": "/Date(1790100000000+0200)/",
+        "AvailableUntilDate": "/Date(1791000000000+0200)/",
+        "HoldingPlace": "75015 - Marguerite Yourcenar",
+        "LocationLabel": "75015 - Marguerite Yourcenar",
+        "IsAvailable": true,
+        "Rank": "1",
+        "RankSort": 1,
+        "CanCancel": false,
+        "CannotCancelReason": "Exemplaire mis à disposition",
+        "AdditionalProperties": {
+          "LocationLabelLink": "https://www.paris.fr/lieux/mediatheque-marguerite-yourcenar-6218"
+        }
+      }
+    ]
+  }
+}
