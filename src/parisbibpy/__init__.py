@@ -44,4 +44,6 @@ __all__ = [
     "ResourceNotFoundError",
     "SessionExpiredError",
     "SyracuseApiError",
+    "__version__",
 ]
+

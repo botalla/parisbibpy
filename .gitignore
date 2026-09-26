@@ -16,3 +16,10 @@ venv/
 # Environment files
 .env
 .env.*
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+scratch/
+

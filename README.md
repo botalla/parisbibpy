@@ -12,6 +12,43 @@ A modern, type-safe, synchronous Python client library for the Paris public libr
 - **Multi-Dimensional Grouping**: Group loans by library branch, family member, or document type (comics, books, board games).
 - **Batch Renewals**: Extend loans across all family cards with one call and receive a detailed `RenewalReport`.
 
+## Installation
+
+You can install `parisbibpy` into any project using `pip` or `uv`.
+
+### Directly from GitHub
+```bash
+# Latest from main branch
+pip install git+https://github.com/botalla/parisbibpy.git
+
+# Or with uv
+uv add git+https://github.com/botalla/parisbibpy.git
+
+# Or install the pre-built wheel directly from GitHub Releases:
+pip install https://github.com/botalla/parisbibpy/releases/download/latest/parisbibpy-0.1.0-py3-none-any.whl
+```
+
+### In `pyproject.toml` (for another project)
+```toml
+[project]
+dependencies = [
+    "parisbibpy @ git+https://github.com/botalla/parisbibpy.git",
+]
+```
+
+### From a local path
+```bash
+# Standard install
+pip install /path/to/parisbibpy
+
+# Editable mode (for active development)
+pip install -e /path/to/parisbibpy
+
+# Using uv
+uv add --editable /path/to/parisbibpy
+```
+
+
 ## Quick Start
 
 ```python
