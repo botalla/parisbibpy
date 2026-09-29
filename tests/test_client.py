@@ -279,3 +279,95 @@ def test_get_family_resilient_to_paired_account_failure(account_summary_data, li
         assert "Aucune session" in family.failed_accounts[0][1]
 
 
+@responses.activate
+def test_get_cover_image_success(list_loans_data):
+    loan = Loan.model_validate(list_loans_data["d"]["Loans"][0])
+    sample_img = b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR"
+
+    responses.add(
+        responses.GET,
+        loan.thumbnail_url,
+        body=sample_img,
+        content_type="image/png",
+        status=200,
+    )
+
+    with ParisBibClient() as client:
+        # 1. Fetch from Loan
+        cover = client.get_cover_image(loan)
+        assert cover is not None
+        assert cover.data == sample_img
+        assert cover.content_type == "image/png"
+        assert cover.url == loan.thumbnail_url
+
+        # 2. Fetch directly from URL string
+        cover_from_url = client.get_cover_image(loan.thumbnail_url)
+        assert cover_from_url is not None
+        assert cover_from_url.data == sample_img
+
+
+@responses.activate
+def test_get_cover_image_fallback_to_default(list_loans_data):
+    loan = Loan.model_validate(list_loans_data["d"]["Loans"][0])
+    default_img = b"\xff\xd8\xff\xe0mock_fallback"
+
+    # Primary URL returns 404
+    responses.add(
+        responses.GET,
+        loan.thumbnail_url,
+        status=404,
+    )
+    # Default thumbnail returns 200
+    responses.add(
+        responses.GET,
+        loan.default_thumbnail_url,
+        body=default_img,
+        content_type="image/jpeg",
+        status=200,
+    )
+
+    with ParisBibClient() as client:
+        # Fallback enabled
+        cover = client.get_cover_image(loan, fallback_to_default=True)
+        assert cover is not None
+        assert cover.data == default_img
+        assert cover.url == loan.default_thumbnail_url
+
+        # Fallback disabled -> returns None
+        cover_no_fallback = client.get_cover_image(loan, fallback_to_default=False)
+        assert cover_no_fallback is None
+
+
+@responses.activate
+def test_get_cover_image_failure_and_batch(list_loans_data):
+    loans = [Loan.model_validate(item) for item in list_loans_data["d"]["Loans"]]
+    img1 = b"img1_data"
+
+    responses.add(
+        responses.GET,
+        loans[0].thumbnail_url,
+        body=img1,
+        content_type="image/jpeg",
+        status=200,
+    )
+    # loan 1 thumbnail 404 and no default thumbnail
+    responses.add(
+        responses.GET,
+        loans[1].thumbnail_url,
+        status=404,
+    )
+
+    with ParisBibClient() as client:
+        # None source
+        assert client.get_cover_image(None) is None
+
+        # Batch fetch
+        covers = client.get_cover_images([loans[0], loans[1], None])
+        assert len(covers) == 3
+        assert covers[0] is not None
+        assert covers[0].data == img1
+        assert covers[1] is None
+        assert covers[2] is None
+
+
+

@@ -105,6 +105,22 @@ Convenience wrapper to renew a single loan by `Loan` object or holding barcode s
 - **Returns**: `True` if successfully extended.
 - **Raises**: `RenewalError` if rejected by Syracuse.
 
+#### `get_cover_image(source, fallback_to_default=True, timeout=None) -> CoverImage | None`
+Downloads and retrieves the raw binary book cover image for a loan, booking, or image URL.
+- **Parameters**:
+  - `source` *(Loan | Booking | str | None)*: Item or URL to fetch.
+  - `fallback_to_default` *(bool)*: If `True` and primary `thumbnail_url` is unavailable/fails, attempts to fetch `default_thumbnail_url`.
+  - `timeout` *(float | None)*: Optional request timeout in seconds.
+- **Returns**: `CoverImage | None`.
+
+#### `get_cover_images(sources, fallback_to_default=True, timeout=None) -> list[CoverImage | None]`
+Downloads book cover images for a list of items or URLs, preserving order.
+- **Parameters**:
+  - `sources` *(Sequence[Loan | Booking | str | None])*: Items to fetch.
+  - `fallback_to_default` *(bool)*: Whether to fallback to default type icons.
+  - `timeout` *(float | None)*: Optional request timeout in seconds.
+- **Returns**: `list[CoverImage | None]`.
+
 #### `close() -> None`
 Closes the underlying session and releases pooled TCP connections.
 
@@ -218,16 +234,42 @@ Represents an individual borrowed document.
 - `can_renew` *(bool)*: `True` if online renewal is currently permitted.
 - `cannot_renew_reason` *(str | None)*: Explanation if renewal is blocked.
 - `thumbnail_url` *(str | None)*: Book cover thumbnail URL.
+- `default_thumbnail_url` *(str | None)*: Fallback generic document-type thumbnail URL.
 - `account_name` *(str | None)*: Display name of the family member who borrowed it.
 - `account_barcode` *(str | None)*: Barcode of the family member's card.
 - `user_unique_identifier` *(str | None)*: Account GUID.
 
 #### Properties:
+- `cover_url -> str | None`: Preferred cover URL, automatically falling back to `default_thumbnail_url`.
 - `days_remaining -> int | None`: Calendar days until the due date (negative if overdue).
 - `urgency_score -> int`: Numerical priority used for visit sorting.
 
 #### Methods:
 - `to_syracuse_dict() -> dict[str, Any]`: Formats the loan object for Syracuse `RenewLoans` payloads.
+
+---
+
+### `CoverImage`
+
+```python
+from parisbibpy import CoverImage
+```
+
+Container for retrieved raw binary cover image data and format conversion helpers.
+
+#### Attributes:
+- `data` *(bytes)*: Raw binary image payload.
+- `content_type` *(str)*: Image MIME type (e.g. `"image/jpeg"`, `"image/png"`).
+- `url` *(str)*: Source URL from which the image was fetched.
+- `size_bytes` *(int)*: Byte length of the image data.
+
+#### Methods & Conversions:
+- `bytes(cover)`: Converts directly to raw `bytes`.
+- `len(cover)`: Returns length in bytes.
+- `to_bytesio() -> io.BytesIO`: In-memory stream ready for `PIL.Image.open()`.
+- `to_base64() -> str`: Base64-encoded ASCII string.
+- `to_data_uri() -> str`: Complete Data URI (e.g. `data:image/jpeg;base64,...`).
+- `save(path: str | Path) -> None`: Writes image bytes directly to a file on disk.
 
 ---
 

@@ -4,6 +4,7 @@ from parisbibpy.models.account import AccountLoans, AccountSummary, PairedAccoun
 from parisbibpy.models.booking import Booking, BookingCollection
 from parisbibpy.models.common import SyracuseEnvelope
 from parisbibpy.models.family import FamilyOverview
+from parisbibpy.models.image import CoverImage
 from parisbibpy.models.loan import LibraryTrip, Loan, LoanCollection
 from parisbibpy.models.renewal import RenewalFailure, RenewalReport
 
@@ -12,6 +13,7 @@ __all__ = [
     "AccountSummary",
     "Booking",
     "BookingCollection",
+    "CoverImage",
     "FamilyOverview",
     "LibraryTrip",
     "Loan",

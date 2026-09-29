@@ -27,6 +27,7 @@ class Loan(BaseModel):
     can_renew: bool = Field(default=False, alias="CanRenew")
     cannot_renew_reason: str | None = Field(default=None, alias="CannotRenewReason")
     thumbnail_url: str | None = Field(default=None, alias="ThumbnailUrl")
+    default_thumbnail_url: str | None = Field(default=None, alias="DefaultThumbnailUrl")
     title_link: str | None = Field(default=None, alias="TitleLink")
     is_renewal: bool = Field(default=False)
 
@@ -55,6 +56,11 @@ class Loan(BaseModel):
     def is_renewable(self) -> bool:
         """Alias for can_renew."""
         return self.can_renew
+
+    @property
+    def cover_url(self) -> str | None:
+        """Preferred cover URL, falling back to default thumbnail URL."""
+        return self.thumbnail_url or self.default_thumbnail_url
 
     @property
     def due_date(self) -> date:
@@ -95,6 +101,7 @@ class Loan(BaseModel):
             "CanRenew": self.can_renew,
             "CannotRenewReason": self.cannot_renew_reason,
             "ThumbnailUrl": self.thumbnail_url,
+            "DefaultThumbnailUrl": self.default_thumbnail_url,
             "TitleLink": self.title_link,
             "AdditionalProperties": {
                 "IsRenewal": "1" if self.is_renewal else "0",

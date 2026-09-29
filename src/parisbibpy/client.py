@@ -23,6 +23,7 @@ from parisbibpy.exceptions import (
 from parisbibpy.models.account import AccountLoans, AccountSummary, PairedAccount
 from parisbibpy.models.booking import Booking, BookingCollection
 from parisbibpy.models.family import FamilyOverview
+from parisbibpy.models.image import CoverImage
 from parisbibpy.models.loan import Loan, LoanCollection
 from parisbibpy.models.renewal import RenewalFailure, RenewalReport
 
@@ -403,6 +404,94 @@ class ParisBibClient:
             )
 
         return True
+
+    def get_cover_image(
+        self,
+        source: Loan | Booking | str | None,
+        fallback_to_default: bool = True,
+        timeout: float | None = None,
+    ) -> CoverImage | None:
+        """Download and retrieve the book cover image for a loan, booking, or thumbnail URL.
+
+        Args:
+            source: A Loan or Booking instance, or an image URL string.
+            fallback_to_default: If True and the primary thumbnail_url is unavailable,
+                attempts to fetch default_thumbnail_url (when source is a Loan or Booking).
+            timeout: Optional custom timeout in seconds (defaults to client timeout).
+
+        Returns:
+            CoverImage object containing raw bytes and helpers, or None if retrieval fails.
+        """
+        if not source:
+            return None
+
+        primary_url: str | None = None
+        fallback_url: str | None = None
+
+        if isinstance(source, (Loan, Booking)):
+            primary_url = source.thumbnail_url
+            if fallback_to_default:
+                fallback_url = source.default_thumbnail_url
+        elif isinstance(source, str):
+            primary_url = source.strip() or None
+        else:
+            return None
+
+        def _fetch(url: str | None) -> CoverImage | None:
+            if not url:
+                return None
+            full_url = url if url.startswith(("http://", "https://")) else f"{self.base_url}{url}"
+            headers = {
+                "Accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+                "Referer": f"{self.base_url}/",
+            }
+            try:
+                resp = self._session.get(
+                    full_url,
+                    headers=headers,
+                    timeout=timeout or self.timeout,
+                )
+                if resp.status_code == 200 and resp.content:
+                    raw_ct = resp.headers.get("Content-Type", "")
+                    if "text/html" in raw_ct.lower() and not full_url.endswith(
+                        (".jpg", ".jpeg", ".png", ".webp")
+                    ):
+                        return None
+                    content_type = raw_ct.split(";")[0].strip() if raw_ct else "image/jpeg"
+                    return CoverImage(data=resp.content, content_type=content_type, url=full_url)
+            except (requests.RequestException, RequestsError, CurlError):
+                pass
+            return None
+
+        result = _fetch(primary_url)
+        if result is not None:
+            return result
+
+        if fallback_url and fallback_url != primary_url:
+            return _fetch(fallback_url)
+
+        return None
+
+    def get_cover_images(
+        self,
+        sources: Sequence[Loan | Booking | str | None],
+        fallback_to_default: bool = True,
+        timeout: float | None = None,
+    ) -> list[CoverImage | None]:
+        """Download book cover images for a sequence of loans, bookings, or URLs.
+
+        Args:
+            sources: Sequence of Loan, Booking, or URL strings.
+            fallback_to_default: If True, falls back to default_thumbnail_url when available.
+            timeout: Optional custom timeout in seconds per request.
+
+        Returns:
+            List of CoverImage objects (or None for failed/missing covers) matching input order.
+        """
+        return [
+            self.get_cover_image(s, fallback_to_default=fallback_to_default, timeout=timeout)
+            for s in sources
+        ]
 
     # =========================================================================
     # LAYER 2: High-Level Convenience Facade & Family Coordinator

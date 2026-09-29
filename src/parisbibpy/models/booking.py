@@ -30,11 +30,17 @@ class Booking(BaseModel):
     can_cancel: bool = Field(default=True, alias="CanCancel")
     cannot_cancel_reason: str | None = Field(default=None, alias="CannotCancelReason")
     thumbnail_url: str | None = Field(default=None, alias="ThumbnailUrl")
+    default_thumbnail_url: str | None = Field(default=None, alias="DefaultThumbnailUrl")
 
     # Family context
     account_name: str | None = None
     account_barcode: str | None = None
     user_unique_identifier: str | None = None
+
+    @property
+    def cover_url(self) -> str | None:
+        """Preferred cover URL, falling back to default thumbnail URL."""
+        return self.thumbnail_url or self.default_thumbnail_url
 
     @field_validator("pickup_location", mode="before")
     @classmethod

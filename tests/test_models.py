@@ -5,6 +5,7 @@ from parisbibpy.models import (
     AccountSummary,
     Booking,
     BookingCollection,
+    CoverImage,
     FamilyOverview,
     Loan,
     LoanCollection,
@@ -193,3 +194,53 @@ def test_family_overview_facade(account_summary_data, list_loans_data, list_book
     
     trips = family.plan_library_trips()
     assert len(trips) == 2
+
+
+def test_cover_image_dataclass_and_helpers(tmp_path):
+    sample_bytes = b"\xff\xd8\xff\xe0\x00\x10JFIF\x00\x01\x01\x01\x00`\x00`\x00\x00"
+    cover = CoverImage(
+        data=sample_bytes,
+        content_type="image/jpeg",
+        url="https://covers.syracuse.cloud/test.jpg",
+    )
+
+    assert bytes(cover) == sample_bytes
+    assert len(cover) == len(sample_bytes)
+    assert cover.size_bytes == len(sample_bytes)
+    assert cover.content_type == "image/jpeg"
+    assert cover.url == "https://covers.syracuse.cloud/test.jpg"
+
+    # BytesIO
+    bio = cover.to_bytesio()
+    assert bio.read() == sample_bytes
+
+    # Base64 and Data URI
+    b64 = cover.to_base64()
+    assert isinstance(b64, str)
+    assert cover.to_data_uri() == f"data:image/jpeg;base64,{b64}"
+
+    # Save to disk
+    out_file = tmp_path / "test_cover.jpg"
+    cover.save(out_file)
+    assert out_file.read_bytes() == sample_bytes
+
+
+def test_loan_and_booking_thumbnail_urls(list_loans_data, list_bookings_data):
+    raw_loan = list_loans_data["d"]["Loans"][0]
+    loan = Loan.model_validate(raw_loan)
+
+    assert loan.thumbnail_url == "https://covers.syracuse.cloud/Cover/VPCO/BDTP/MEDIUM?fallback=default"
+    assert loan.default_thumbnail_url == "https://bibliotheques.paris.fr/ui/skins/default/portal/front/images/General/DocType/BDTP_MEDIUM.png"
+    assert loan.cover_url == loan.thumbnail_url
+
+    # When thumbnail_url is None, cover_url falls back to default_thumbnail_url
+    loan_no_thumb = Loan.model_validate({**raw_loan, "ThumbnailUrl": None})
+    assert loan_no_thumb.thumbnail_url is None
+    assert loan_no_thumb.cover_url == loan.default_thumbnail_url
+
+    raw_booking = list_bookings_data["d"]["Bookings"][0]
+    booking = Booking.model_validate(raw_booking)
+    assert booking.thumbnail_url == "https://covers.syracuse.cloud/Cover/VPCO/BDTP/ZArKsKBG8yMlXFrEE_0xYA2/9782355741692/MEDIUM?fallback=default"
+    assert booking.default_thumbnail_url == "https://bibliotheques.paris.fr/ui/skins/default/portal/front/images/General/DocType/BDTP_MEDIUM.png"
+    assert booking.cover_url == booking.thumbnail_url
+
